@@ -1,5 +1,4 @@
-terraform-alicloud-enable
-======================
+# terraform-alicloud-enable
 
 English | [简体中文](https://github.com/terraform-alicloud-modules/terraform-alicloud-enable/blob/master/README-CN.md)
 
@@ -57,7 +56,7 @@ module "example" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 | <a name="requirement_alicloud"></a> [alicloud](#requirement\_alicloud) | >= 1.67.0 |
 
 Authors
