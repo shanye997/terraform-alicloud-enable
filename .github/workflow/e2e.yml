@@ -1,0 +1,22 @@
+name: E2E Test Check
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    types: [ 'opened', 'synchronize' ]
+    paths:
+      - '.github/**'
+      - '.github/workflows/**'
+      - '**/*.tf'
+
+jobs:
+  e2e-check:
+    runs-on: terraform-alicloud-landing
+    environment: 
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: e2e test
+        run: |
+          curl ${{vars.FC_TEST_URL}}
