@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -45,6 +46,16 @@ func main() {
 		if finish {
 			log.Println("run log path:", ossObjectPath)
 			log.Println("run log url:", runLogUrl)
+			if strings.Contains(ossObjectPath, "weekly") {
+				cmd := exec.Command("go", "run", "scripts/update-test-record.go",
+					ossObjectPath, string(rune(exitCode)))
+				if err := cmd.Run(); err != nil {
+					log.Println("fail to download terraform zip:", err)
+				}
+				if exitCode == 1 {
+					exitCode = 0
+				}
+			}
 			os.Exit(exitCode)
 		}
 		runResultResponse, err := http.Get(runResultUrl)
