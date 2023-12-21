@@ -27,7 +27,7 @@ func main() {
 		runLogResponse, err := http.Get(runLogUrl)
 		if err != nil || runLogResponse.StatusCode != 200 {
 			log.Println("waiting for job running...")
-			time.Sleep(10 * time.Second)
+			time.Sleep(5 * time.Second)
 			continue
 		}
 		defer runLogResponse.Body.Close()
@@ -49,7 +49,7 @@ func main() {
 			if strings.Contains(ossObjectPath, "weekly") {
 				cmd := exec.Command("go", "run", "scripts/update-test-record.go", ossObjectPath)
 				if err := cmd.Run(); err != nil {
-					log.Println("fail to download terraform zip:", err)
+					log.Println("fail to update test record:", err)
 				}
 				exitCode = 0
 			}

@@ -24,6 +24,7 @@ do
     ./terraform -chdir=$f test test -verbose
     if [[ $? -ne 0 ]]; then
         success=false
+        allSuccess=false
         echo -e "\033[31m[ERROR]\033[0m: running terraform test for plan failed."
     else
         echo ""
@@ -33,6 +34,7 @@ do
         ./terraform -chdir=$f test test
         if [[ $? -ne 0 ]]; then
         success=false
+        allSuccess=false
         echo -e "\033[31m[ERROR]\033[0m: running terraform test for apply failed."
         fi
         rm -rf $f/apply.tftest.hcl
