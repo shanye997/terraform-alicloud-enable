@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: Get repo name and pull request number
+      - name: Get pull request info
         run: |
           echo "repo name is" ${{github.event.pull_request.head.repo.full_name}}
           echo "branch is" ${{github.event.pull_request.head.ref}}
