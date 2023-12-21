@@ -107,6 +107,6 @@ func updateTestRecord(ossObjectPath string) {
 	}
 	defer testRecordFile.Close()
 
-	currentTestRecord += oldTestRecord
+	currentTestRecord += "\n---\n\n" +oldTestRecord
 	testRecordFile.WriteString(currentTestRecord)
 }
