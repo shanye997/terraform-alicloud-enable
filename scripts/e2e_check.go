@@ -2,18 +2,19 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 	"strings"
 	"time"
 )
 
+var urlPrefix = "https://terraform-fc-test-for-example-module.oss-ap-southeast-1.aliyuncs.com"
+
 func main() {
 	ossObjectPath := strings.TrimSpace(os.Args[1])
 	log.Println("run log path:", ossObjectPath)
-	urlPrefix := "https://terraform-fc-test-for-example-module.oss-ap-southeast-1.aliyuncs.com"
 	runLogFileName := "terraform.run.log"
 	runResultFileName := "terraform.run.result.log"
 	runLogUrl := urlPrefix + "/" + ossObjectPath + "/" + runLogFileName
@@ -32,14 +33,14 @@ func main() {
 		}
 		defer runLogResponse.Body.Close()
 
-		runLogContent := make([]byte, 100000000)
-		lineNum, er := runLogResponse.Body.Read(runLogContent)
+		s, er := io.ReadAll(runLogResponse.Body)
 		if er != nil && fmt.Sprint(er) != "EOF" {
 			log.Println("[ERROR] reading run log response failed:", err)
 		}
+		lineNum := len(s)
 		if runLogResponse.StatusCode == 200 {
 			if lineNum > lastLineNum {
-				fmt.Println(string(runLogContent[lastLineNum:lineNum]))
+				fmt.Printf("%s", s[lastLineNum:lineNum])
 				lastLineNum = lineNum
 			}
 		}
@@ -47,10 +48,7 @@ func main() {
 			log.Println("run log path:", ossObjectPath)
 			log.Println("run log url:", runLogUrl)
 			if strings.Contains(ossObjectPath, "weekly") {
-				cmd := exec.Command("go", "run", "scripts/update-test-record.go", ossObjectPath)
-				if err := cmd.Run(); err != nil {
-					log.Println("fail to update test record:", err)
-				}
+				updateTestRecord(ossObjectPath)
 				exitCode = 0
 			}
 			os.Exit(exitCode)
@@ -72,4 +70,43 @@ func main() {
 		}
 	}
 	log.Println("[ERROR] Timeout: waiting for job finished timeout after 24 hours.")
+}
+
+func updateTestRecord(ossObjectPath string) {
+	currentTestRecordFileName := "TestRecord.md"
+	currentTestRecordFileUrl := urlPrefix + "/" + ossObjectPath + "/" + currentTestRecordFileName
+	response, err := http.Get(currentTestRecordFileUrl)
+	if err != nil {
+		log.Println("[ERROR] failed to get test record from oss")
+		return
+	}
+	defer response.Body.Close()
+	data, _ := io.ReadAll(response.Body)
+	currentTestRecord := string(data)
+
+	testRecordFileName := "TestRecord.md"
+	var testRecordFile *os.File
+	oldTestRecord := ""
+	if _, err := os.Stat(testRecordFileName); os.IsNotExist(err) {
+		testRecordFile, err = os.Create(testRecordFileName)
+		if err != nil {
+			log.Println("[ERROR] failed to create test record file")
+		}
+	} else {
+		data, err := os.ReadFile(testRecordFileName)
+		if err != nil {
+			log.Println("[ERROR] failed to read test record file")
+			return
+		}
+		oldTestRecord = string(data)
+
+		testRecordFile, err = os.OpenFile(testRecordFileName, os.O_TRUNC|os.O_RDWR, 0666)
+		if err != nil {
+			log.Println("[ERROR] failed to open test record file")
+		}
+	}
+	defer testRecordFile.Close()
+
+	currentTestRecord += oldTestRecord
+	testRecordFile.WriteString(currentTestRecord)
 }
