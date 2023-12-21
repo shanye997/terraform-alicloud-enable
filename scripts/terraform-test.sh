@@ -46,10 +46,11 @@ do
         if [ -n "$row" ]; then
             version=`echo -e "$version" | sed -n "1,${row}p"`
         fi  
-        echo -e "### Versions\n" >> $testRecordFile 
-        echo -e "${version}" >> $testRecordFile 
     fi
 done
+
+echo -e "### Versions\n" >> $testRecordFile 
+echo -e "${version}" >> $testRecordFile 
 
 if [[ $allSuccess == false ]]; then
     exit 1
