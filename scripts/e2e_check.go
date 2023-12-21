@@ -47,14 +47,11 @@ func main() {
 			log.Println("run log path:", ossObjectPath)
 			log.Println("run log url:", runLogUrl)
 			if strings.Contains(ossObjectPath, "weekly") {
-				cmd := exec.Command("go", "run", "scripts/update-test-record.go",
-					ossObjectPath, string(rune(exitCode)))
+				cmd := exec.Command("go", "run", "scripts/update-test-record.go", ossObjectPath)
 				if err := cmd.Run(); err != nil {
 					log.Println("fail to download terraform zip:", err)
 				}
-				if exitCode == 1 {
-					exitCode = 0
-				}
+				exitCode = 0
 			}
 			os.Exit(exitCode)
 		}

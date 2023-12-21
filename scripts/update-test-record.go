@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
-	"time"
 )
 
 func main() {
@@ -16,29 +14,18 @@ func main() {
 		return
 	}
 	ossObjectPath := strings.TrimSpace(os.Args[1])
-	result := strings.TrimSpace(os.Args[2])
 
 	urlPrefix := "https://terraform-fc-test-for-example-module.oss-ap-southeast-1.aliyuncs.com"
-	tfVersionFileName := "terraform.version.log"
-	tfVersionUrl := urlPrefix + "/" + ossObjectPath + "/" + tfVersionFileName
-	tfVersionResponse, err := http.Get(tfVersionUrl)
+	currentTestRecordFileName := "TestRecord.md"
+	currentTestRecordFileUrl := urlPrefix + "/" + ossObjectPath + "/" + currentTestRecordFileName
+	response, err := http.Get(currentTestRecordFileUrl)
 	if err != nil {
-		log.Println("[ERROR] failed to get terraform version from oss")
+		log.Println("[ERROR] failed to get test record from oss")
 		return
 	}
-	defer tfVersionResponse.Body.Close()
-	tfVersion, _ := io.ReadAll(tfVersionResponse.Body)
-
-	currentTestRecord := "## "
-	currentTime := time.Now().Format("02 Jan 2006 15:04 UTC")
-	currentTestRecord += currentTime + "\n\n"
-	if result == "0" {
-		currentTestRecord += "success: true\n\n"
-	} else {
-		currentTestRecord += "success: false\n\n"
-	}
-	currentTestRecord += "## Versions\n\n"
-	currentTestRecord += string(tfVersion) + "\n\n\n"
+	defer response.Body.Close()
+	data, _ := io.ReadAll(response.Body)
+	currentTestRecord := string(data)
 
 	testRecordFileName := "TestRecord.md"
 	var testRecordFile *os.File
@@ -62,8 +49,6 @@ func main() {
 		}
 	}
 	defer testRecordFile.Close()
-
-	fmt.Println()
 
 	currentTestRecord += oldTestRecord
 	testRecordFile.WriteString(currentTestRecord)
