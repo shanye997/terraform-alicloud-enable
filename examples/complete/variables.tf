@@ -34,7 +34,6 @@ variable "services" {
     alicloud_iot_service                   = "On"
     alicloud_kms_service                   = "On"
     alicloud_log_service                   = "On"
-    alicloud_maxcompute_service            = "On"
     alicloud_mns_service                   = "On"
     alicloud_nas_service                   = "On"
     alicloud_oss_service                   = "On"
