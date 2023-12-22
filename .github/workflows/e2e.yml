@@ -12,7 +12,7 @@ on:
 
 jobs:
   e2e-check:
-    if: github.event.review.state == 'approved' || github.event.review.body == 'approved'
+    # if: github.event.review.state == 'approved' || github.event.review.body == 'approved'
     runs-on: ubuntu-latest
     steps:
       - name: checkout
