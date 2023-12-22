@@ -51,9 +51,6 @@ data "alicloud_kms_service" "open" {
 data "alicloud_log_service" "open" {
   enable = lookup(var.services, "alicloud_log_service", "Off")
 }
-data "alicloud_maxcompute_service" "open" {
-  enable = lookup(var.services, "alicloud_maxcompute_service", "Off")
-}
 data "alicloud_mns_service" "open" {
   enable = lookup(var.services, "alicloud_mns_service", "Off")
 }
