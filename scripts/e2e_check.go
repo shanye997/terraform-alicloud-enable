@@ -66,6 +66,7 @@ func main() {
 		}
 		finish = true
 		if !strings.HasPrefix(string(runResultContent), "PASS") {
+			log.Println("[ERROR] run result:", string(runResultContent))
 			exitCode = 1
 		}
 	}
