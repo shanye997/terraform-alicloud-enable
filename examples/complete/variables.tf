@@ -42,7 +42,6 @@ variable "services" {
     alicloud_cr_service                    = "On"
     alicloud_sae_service                   = "On"
     alicloud_datahub_service               = "On"
-    alicloud_cms_service                   = "On"
     alicloud_edas_service                  = "On"
   }
 }

@@ -46,9 +46,7 @@ module "example" {
 | alicloud_fc_service                    | 
 | alicloud_iot_service                   | 
 | alicloud_kms_service                   |  
-| alicloud_log_service                   | 
-| alicloud_maxcompute_service            |  
-| alicloud_mns_service                   |  
+| alicloud_log_service                   |   
 | alicloud_nas_service                   | 
 | alicloud_oss_service                   | 
 | alicloud_privatelink_service           |
@@ -57,7 +55,6 @@ module "example" {
 | alicloud_cr_service                    | 
 | alicloud_sae_service                   | 
 | alicloud_datahub_service               |  
-| alicloud_cms_service                   |
 | alicloud_edas_service                  |
 
 ## 示例
