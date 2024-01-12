@@ -24,6 +24,7 @@ func main() {
 	finish := false
 	exitCode := 0
 	log.Println(runLogUrl)
+	errResultMessage := ""
 	for !time.Now().After(deadline) {
 		runLogResponse, err := http.Get(runLogUrl)
 		if err != nil || runLogResponse.StatusCode != 200 {
@@ -66,10 +67,11 @@ func main() {
 		}
 		finish = true
 		if !strings.HasPrefix(string(runResultContent), "PASS") {
-			log.Println("[ERROR] run result:", string(runResultContent))
+			errResultMessage = string(runResultContent)
 			exitCode = 1
 		}
 	}
+	log.Println("[ERROR] run result:", errResultMessage)
 	log.Println("[ERROR] Timeout: waiting for job finished timeout after 24 hours.")
 }
 
