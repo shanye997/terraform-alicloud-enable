@@ -43,7 +43,6 @@ module "example" {
 | alicloud_cr_service                    | 
 | alicloud_sae_service                   | 
 | alicloud_datahub_service               |  
-| alicloud_cms_service                   |
 | alicloud_edas_service                  |
 
 ## Examples

@@ -82,10 +82,6 @@ data "alicloud_datahub_service" "open" {
   enable = lookup(var.services, "alicloud_datahub_service", "Off")
 }
 
-data "alicloud_cms_service" "open" {
-  enable = lookup(var.services, "alicloud_cms_service", "Off")
-}
-
 data "alicloud_edas_service" "open" {
   enable = lookup(var.services, "alicloud_edas_service", "Off")
 }
