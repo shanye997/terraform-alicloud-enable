@@ -52,6 +52,9 @@ func main() {
 				updateTestRecord(ossObjectPath)
 				exitCode = 0
 			}
+			if errResultMessage != "" {
+				log.Println("[ERROR] run result:", errResultMessage)
+			}
 			os.Exit(exitCode)
 		}
 		runResultResponse, err := http.Get(runResultUrl)
@@ -71,7 +74,6 @@ func main() {
 			exitCode = 1
 		}
 	}
-	log.Println("[ERROR] run result:", errResultMessage)
 	log.Println("[ERROR] Timeout: waiting for job finished timeout after 24 hours.")
 }
 
