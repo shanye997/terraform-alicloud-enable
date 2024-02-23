@@ -56,6 +56,11 @@ module "example" {
 | alicloud_sae_service                   | 
 | alicloud_datahub_service               |  
 | alicloud_edas_service                  |
+| alicloud_cloud_sso_service             |
+| alicloud_hbr_service                   |
+| alicloud_vpc_flow_log_service          |
+| alicloud_vpc_traffic_mirror_service    |
+| alicloud_vs_service                    |
 
 ## 示例
 
