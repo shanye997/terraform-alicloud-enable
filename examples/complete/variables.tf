@@ -43,5 +43,10 @@ variable "services" {
     alicloud_sae_service                   = "On"
     alicloud_datahub_service               = "On"
     alicloud_edas_service                  = "On"
+    alicloud_cloud_sso_service             = "On"
+    alicloud_hbr_service                   = "On"
+    alicloud_vpc_flow_log_service          = "On"
+    alicloud_vpc_traffic_mirror_service    = "On"
+    alicloud_vs_service                    = "On"
   }
 }

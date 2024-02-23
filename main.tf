@@ -85,3 +85,23 @@ data "alicloud_datahub_service" "open" {
 data "alicloud_edas_service" "open" {
   enable = lookup(var.services, "alicloud_edas_service", "Off")
 }
+
+data "alicloud_cloud_sso_service" "open" {
+  enable = lookup(var.services, "alicloud_cloud_sso_service", "Off")
+}
+
+data "alicloud_hbr_service" "open" {
+  enable = lookup(var.services, "alicloud_hbr_service", "Off")
+}
+
+data "alicloud_vpc_flow_log_service" "open" {
+  enable = lookup(var.services, "alicloud_vpc_flow_log_service", "Off")
+}
+
+data "alicloud_vpc_traffic_mirror_service" "open" {
+  enable = lookup(var.services, "alicloud_vpc_traffic_mirror_service", "Off")
+}
+
+data "alicloud_vs_service" "open" {
+  enable = lookup(var.services, "alicloud_vs_service", "Off")
+}
