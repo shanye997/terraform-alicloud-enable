@@ -11,36 +11,27 @@ on:
       - '**/*.tf'
 
 jobs:
+  commitlint:
+
   terraform-fmt:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: fmt-check
-        run: |
-          if [ ! -f /usr/local/bin/terraform ]; then
-            wget -q https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
-            unzip terraform_1.6.0_linux_amd64.zip -d /usr/local/bin/
-          fi
-          error=false
-          echo "===> Terraform fmt -diff checking"
-          terraform fmt -diff -recursive -check
-          if [[ $? -ne 0 ]]; then
-            echo -e "\033[31m[ERROR]\033[0m: Some codes has not been formatted, and please running terraform fmt --recursive command before pushing."
-            exit 1
-          fi
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform -chdir=quickstarts fmt -check -recursive
 
   terraform-validate:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v3
       - name: validate-check
         run: |
-          if [ ! -f /usr/local/bin/terraform ]; then
-            wget -q https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
-            unzip terraform_1.6.0_linux_amd64.zip -d /usr/local/bin/
-          fi
           exp="examples"
           output_file="combined_output.txt"
           if [[ -d "$exp" ]]; then
