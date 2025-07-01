@@ -7,7 +7,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    # if: github.repository_owner == 'alibabacloud-automation' && github.actor == 'shanye997'
+    if: github.repository_owner == 'alibabacloud-automation' && github.actor == 'shanye997'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
