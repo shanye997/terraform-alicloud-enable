@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/shanye997/terraform-alicloud-enable/compare/v1.0.1...v1.1.0) (2025-07-01)
+
+
+### Features
+
+* test ([fb8d70c](https://github.com/shanye997/terraform-alicloud-enable/commit/fb8d70c783c7fa53b48e6099123187a725ce5c51))
+
 ## [1.0.1](https://github.com/shanye997/terraform-alicloud-enable/compare/v1.0.0...v1.0.1) (2025-07-01)
 
 ## 1.0.0 (2025-07-01)
