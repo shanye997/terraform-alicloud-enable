@@ -5,16 +5,17 @@ on:
       - master
       - main
     types: [ 'opened', 'synchronize' ]
-    paths:
-      - '.github/**'
-      - '.github/workflows/**'
-      - '**/*.tf'
 
 jobs:
-  # commitlint:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ahmadnassri/action-commit-lint@v2
 
   terraform-fmt:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.modified, '.tf')
     steps:
       - uses: actions/checkout@v4
 
@@ -22,10 +23,12 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: terraform -chdir=quickstarts fmt -check -recursive
+        run: terraform fmt -check -recursive
 
   terraform-validate:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.modified, '.tf')
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -54,6 +57,8 @@ jobs:
   
   tflint:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.modified, '.tf')
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -96,8 +101,9 @@ jobs:
           fi
           
   e2e-check:
-    # if: github.event.review.state == 'approved' || github.event.review.body == 'approved'
-    needs: [terraform-fmt, terraform-validate, tflint]
+    if: |
+      contains(github.event.pull_request.modified, '.tf')
+    needs: [terraform-fmt, terraform-validate, tflint, commitlint]
     runs-on: ubuntu-latest
     name: 'e2e check'
     steps:
