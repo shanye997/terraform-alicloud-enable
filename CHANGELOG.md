@@ -1,3 +1,10 @@
+## 1.0.0 (2025-07-01)
+
+
+### Features
+
+* **init:** init the module ([8a06780](https://github.com/shanye997/terraform-alicloud-enable/commit/8a06780c0b03a883f94945435e6aa698827924e1))
+
 ## 1.3.0 (Unreleased)
 ## 1.2.0 (March 20, 2025)
 
