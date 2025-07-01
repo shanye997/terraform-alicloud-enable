@@ -11,7 +11,7 @@ on:
       - '**/*.tf'
 
 jobs:
-  commitlint:
+  # commitlint:
 
   terraform-fmt:
     runs-on: ubuntu-latest
