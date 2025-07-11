@@ -1,0 +1,28 @@
+name: Pull Request Checks
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    types: [ 'opened', 'synchronize' ]
+
+
+jobs:
+  commits:
+    runs-on: ubuntu-latest
+    name: Pull Request Max Commits
+    steps:
+      - name: Checking the max commits number
+        run: |
+          commitNum=${{ github.event.pull_request.commits }}
+          if [[ ${commitNum} -gt 1 ]]; then
+            echo -e "\nERROR: The PR has ${commitNum} commits, and please rebase it to 1.\n"
+            exit 1
+          fi
+          
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ahmadnassri/action-commit-lint@v2
+
+  
