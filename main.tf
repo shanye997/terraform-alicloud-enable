@@ -133,3 +133,4 @@ data "alicloud_vs_service" "open" {
   count  = contains(keys(var.services), "alicloud_vs_service") ? 1 : 0
   enable = lookup(var.services, "alicloud_vs_service", "Off")
 }
+

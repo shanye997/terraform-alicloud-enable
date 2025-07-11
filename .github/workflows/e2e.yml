@@ -1,6 +1,6 @@
 name: E2E Test Check
 on:
-   workflow_run:
+  workflow_run:
     workflows: [Pull Request Checks]
     types:
       - completed
@@ -8,6 +8,7 @@ on:
 jobs:
   terraform-fmt:
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.workflow_run.inputs.changed_paths, '*.tf') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -19,6 +20,7 @@ jobs:
 
   terraform-validate:
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.workflow_run.inputs.changed_paths, '*.tf') }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -47,6 +49,7 @@ jobs:
   
   tflint:
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.workflow_run.inputs.changed_paths, '*.tf') }}
     steps:
       - uses: actions/checkout@v4
         name: Checkout source code
@@ -84,9 +87,12 @@ jobs:
           if [[ $? -ne 0 ]]; then
               exit_code=1
           fi
-          
+
   e2e-check:
     needs: [terraform-fmt, terraform-validate, tflint]
+    if: |
+      ${{ github.event.workflow_run.conclusion == 'success' }} &&
+      ${{ contains(github.event.workflow_run.inputs.changed_paths, '*.tf') }}
     runs-on: ubuntu-latest
     name: 'e2e check'
     steps:

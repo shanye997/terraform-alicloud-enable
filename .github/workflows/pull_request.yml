@@ -25,4 +25,15 @@ jobs:
     steps:
       - uses: ahmadnassri/action-commit-lint@v2
 
+  check-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git diff
+        run: |
+          echo "::set-output name=changed_paths::$(git diff --name-only HEAD~1)"
+      - name: set env
+        env:
+          CHANGED_PATHS: ${{ steps.check-changes.outputs.changed_paths }}
+        run: echo "$CHANGED_PATHS"
+
   
