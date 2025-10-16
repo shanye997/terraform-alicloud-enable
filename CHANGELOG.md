@@ -1,3 +1,10 @@
+## 1.0.0 (2025-10-16)
+
+
+### Features
+
+* support upload meta ([0e26e51](https://github.com/shanye997/terraform-alicloud-enable/commit/0e26e5114f6b77b4cb4bf68efa055ff7fcf324cc))
+
 ## 1.2.0 (Unreleased)
 ## 1.1.0 (Feb 29, 2024)
 
